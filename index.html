@@ -154,6 +154,8 @@
     .guide-footer button:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
     .guide-trigger svg { width: 17px; height: 17px; color: var(--gold); }
     .release-info { max-width: 250px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .edge-help { flex-basis: 100%; margin-top: 4px; max-width: 520px; padding: 10px 14px; border-radius: 12px; background: rgba(255, 156, 8, .09); border: 1px solid rgba(255, 156, 8, .25); color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+    .edge-help strong { color: inherit; font-weight: 650; }
     .features { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 31px; }
     .feature {
       display: inline-flex;
@@ -427,6 +429,7 @@
             <span>Guide de prise en main</span>
           </button>
           <span class="release-info">Dernière version <span id="release-number"></span>· Un seul installateur · Windows x64 · installation par utilisateur</span>
+          <p class="edge-help" role="note"><strong>Edge bloque le téléchargement ?</strong> C’est normal pour une application récente. Dans la liste des téléchargements, passez la souris sur le fichier, cliquez sur <strong>…</strong> puis <strong>Conserver</strong>, <strong>Afficher plus</strong> et <strong>Conserver quand même</strong>. Au lancement, si Windows affiche « Windows a protégé votre ordinateur » : <strong>Informations complémentaires</strong> puis <strong>Exécuter quand même</strong>.</p>
         </div>
         <div class="features" aria-label="Fonctionnalités">
           <span class="feature"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Heures de travail</span>
