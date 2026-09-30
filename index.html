@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111210">
+  <meta name="description" content="Timbreuse V2 — une application Windows simple pour suivre vos heures de travail, vos pauses et votre solde.">
+  <title>Timbreuse V2 — Le temps, en toute clarté</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111210;
+      --panel: #191a17;
+      --panel-light: #20211d;
+      --ink: #f2f0e9;
+      --muted: #aaa99f;
+      --dim: #73746c;
+      --gold: #e5b73b;
+      --gold-soft: #f1d47d;
+      --line: rgba(238, 235, 222, .11);
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      background:
+        radial-gradient(ellipse at 78% 46%, rgba(173, 129, 25, .095), transparent 34%),
+        radial-gradient(ellipse at 12% 100%, rgba(76, 83, 59, .10), transparent 38%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+    .page {
+      position: relative;
+      isolation: isolate;
+      width: min(100%, 1600px);
+      height: 100svh;
+      min-height: 500px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 6.1vw, 96px);
+      display: grid;
+      grid-template-rows: 84px minmax(0, 1fr) 64px;
+    }
+    .page::before {
+      position: absolute;
+      z-index: -1;
+      top: 12%;
+      bottom: 12%;
+      left: 50%;
+      width: 1px;
+      content: "";
+      background: linear-gradient(transparent, rgba(229,183,59,.12) 30%, rgba(229,183,59,.12) 70%, transparent);
+    }
+    .topbar, .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar { border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; }
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgba(229,183,59,.42);
+      border-radius: 11px;
+      background: #0b0b0c;
+      color: var(--gold);
+      overflow: hidden;
+    }
+    .brand-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .brand-name { font-size: 14px; font-weight: 600; letter-spacing: .015em; }
+    .brand-version { margin-left: 3px; color: var(--muted); font-size: 12px; font-weight: 450; }
+    .top-note { color: var(--muted); font-size: 12px; letter-spacing: .035em; }
+    main {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: clamp(18px, 4vw, 72px);
+    }
+    .copy { position: relative; z-index: 1; max-width: 570px; padding: 26px 0 30px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold-soft);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 24px; height: 1px; content: ""; background: var(--gold); }
+    h1 {
+      max-width: 610px;
+      margin: 24px 0 17px;
+      font-size: clamp(48px, 6.25vw, 88px);
+      font-weight: 540;
+      letter-spacing: -.067em;
+      line-height: .99;
+    }
+    h1 span { color: var(--gold-soft); }
+    .intro {
+      max-width: 450px;
+      margin: 0;
+      color: #c3c1b7;
+      font-size: clamp(15px, 1.3vw, 18px);
+      line-height: 1.65;
+    }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 17px 22px; margin-top: 31px; }
+    .download {
+      min-height: 56px;
+      padding: 0 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid #edc854;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #f0cb61, #dba92e);
+      box-shadow: 0 9px 28px rgba(217, 166, 35, .16), inset 0 1px 0 rgba(255,255,255,.25);
+      color: #201b0e;
+      font-size: 14px;
+      font-weight: 720;
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+    }
+    .download:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 12px 32px rgba(217,166,35,.23); }
+    .download:focus-visible, .brand:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+    .download svg { width: 18px; height: 18px; }
+    .guide-trigger {
+      min-height: 48px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid rgba(238,235,222,.16);
+      border-radius: 13px;
+      background: rgba(255,255,255,.035);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 580;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .guide-trigger:hover { transform: translateY(-1px); border-color: rgba(229,183,59,.48); background: rgba(229,183,59,.07); }
+    .guide-trigger:focus-visible, .guide-close:focus-visible, .guide-step:focus-visible,
+    .guide-footer button:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 3px; }
+    .guide-trigger svg { width: 17px; height: 17px; color: var(--gold); }
+    .release-info { max-width: 250px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .features { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 31px; }
+    .feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.025);
+      color: #c7c5bb;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .feature svg { width: 14px; height: 14px; color: var(--gold); }
+    .art {
+      position: relative;
+      display: grid;
+      min-width: 0;
+      min-height: 0;
+      height: min(68vh, 620px);
+      place-items: center;
+    }
+    .halo {
+      position: absolute;
+      width: min(39vw, 500px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(229,183,59,.12);
+      border-radius: 50%;
+      box-shadow: 0 0 90px rgba(229,183,59,.045), inset 0 0 80px rgba(229,183,59,.025);
+    }
+    .halo::before, .halo::after { position: absolute; content: ""; border: 1px solid rgba(229,183,59,.10); border-radius: 50%; }
+    .halo::before { inset: 8%; }
+    .halo::after { inset: 17%; border-color: rgba(238,235,222,.07); }
+    .dial {
+      position: relative;
+      width: min(27vw, 340px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(229,183,59,.28);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #23241f 0 58%, #191a17 59% 100%);
+      box-shadow: 0 24px 90px rgba(0,0,0,.38), 0 0 45px rgba(229,183,59,.08);
+    }
+    .dial-ring { position: absolute; inset: -13px; width: calc(100% + 26px); height: calc(100% + 26px); transform: rotate(-90deg); overflow: visible; }
+    .dial-ring circle { fill: none; stroke-width: 2; }
+    .dial-ring .track { stroke: rgba(240,237,225,.09); }
+    .dial-ring .arc { stroke: var(--gold); stroke-linecap: round; stroke-dasharray: 188 440; }
+    .dial-glyph { width: 31%; height: 31%; color: var(--gold); }
+    .dial-glyph circle { fill: none; stroke: currentColor; stroke-width: 1.45; }
+    .dial-glyph path { fill: none; stroke: #f5f2e9; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+    .orbit-label {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 13px;
+      border: 1px solid rgba(238,235,222,.12);
+      border-radius: 10px;
+      background: rgba(25,26,23,.9);
+      color: #d1cfc5;
+      font-size: 11px;
+      letter-spacing: .025em;
+      box-shadow: 0 12px 32px rgba(0,0,0,.22);
+    }
+    .orbit-label::before { width: 6px; height: 6px; content: ""; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px rgba(229,183,59,.45); }
+    .label-top { top: 19%; right: 5%; }
+    .label-bottom { bottom: 19%; left: 4%; }
+    .label-side { right: 0; bottom: 34%; color: var(--muted); }
+    .label-side::before { background: #7d9e86; box-shadow: none; }
+    .ticks { position: absolute; inset: -28px; pointer-events: none; }
+    .tick { position: absolute; top: 0; left: calc(50% - 1px); width: 2px; height: 10px; transform-origin: 1px calc(min(27vw, 340px) / 2 + 28px); background: rgba(242,240,233,.28); }
+    .tick:nth-child(1) { transform: rotate(0deg); background: var(--gold); }
+    .tick:nth-child(2) { transform: rotate(45deg); }
+    .tick:nth-child(3) { transform: rotate(90deg); background: var(--gold); }
+    .tick:nth-child(4) { transform: rotate(135deg); }
+    .tick:nth-child(5) { transform: rotate(180deg); background: var(--gold); }
+    .tick:nth-child(6) { transform: rotate(225deg); }
+    .tick:nth-child(7) { transform: rotate(270deg); background: var(--gold); }
+    .tick:nth-child(8) { transform: rotate(315deg); }
+    .footer { border-top: 1px solid var(--line); color: var(--dim); font-size: 11px; }
+    .footer .local { display: inline-flex; align-items: center; gap: 8px; }
+    .footer svg { width: 14px; height: 14px; color: var(--gold); }
+    .footer-note { color: #77786f; letter-spacing: .04em; }
+    @media (max-width: 760px) {
+      .page { min-height: 500px; padding-inline: clamp(20px, 6vw, 34px); grid-template-rows: 60px minmax(0,1fr) 45px; }
+      .page::before { display: none; }
+      main { position: relative; grid-template-columns: 1fr; grid-template-rows: minmax(130px, 30%) 1fr; gap: 0; align-items: stretch; }
+      .art { grid-row: 1; height: 100%; }
+      .halo { width: min(48vw, 205px); }
+      .dial { width: min(31vw, 138px); }
+      .dial-ring { inset: -7px; width: calc(100% + 14px); height: calc(100% + 14px); }
+      .dial-ring circle { stroke-width: 2.7; }
+      .ticks { inset: -12px; }
+      .tick { height: 5px; transform-origin: 1px calc(min(31vw, 138px) / 2 + 12px); }
+      .orbit-label { padding: 7px 9px; gap: 6px; font-size: 9px; }
+      .label-top { top: 9%; right: 5%; }
+      .label-bottom { bottom: 4%; left: 4%; }
+      .label-side { right: 1%; bottom: 12%; }
+      .copy { max-width: 560px; justify-self: center; align-self: start; width: 100%; padding: 7px 0 12px; }
+      h1 { margin: 13px 0 11px; font-size: clamp(42px, 12vw, 61px); }
+      .intro { max-width: 430px; font-size: 14px; line-height: 1.5; }
+      .actions { gap: 13px 17px; margin-top: 19px; }
+      .download { min-height: 50px; padding-inline: 17px; font-size: 13px; }
+      .release-info { max-width: 220px; }
+      .features { gap: 7px; margin-top: 18px; }
+      .feature { padding: 7px 9px; font-size: 10px; }
+      .footer { font-size: 10px; }
+    }
+    @media (max-width: 380px) {
+      .page { padding-inline: 17px; grid-template-rows: 54px minmax(0,1fr) 40px; }
+      .top-note { font-size: 10px; }
+      main { grid-template-rows: minmax(115px, 25%) 1fr; }
+      h1 { font-size: clamp(39px, 11vw, 46px); }
+      .features { gap: 5px; }
+      .feature { padding: 6px 7px; font-size: 9px; }
+      .footer-note { display: none; }
+    }
+    @media (max-height: 700px) and (min-width: 761px) {
+      .page { grid-template-rows: 64px minmax(0,1fr) 48px; }
+      .art { height: min(66vh, 480px); }
+      .copy { padding-block: 15px; }
+      h1 { margin-block: 17px 12px; font-size: clamp(46px, 5.7vw, 72px); }
+      .actions { margin-top: 22px; }
+      .features { margin-top: 22px; }
+    }
+    @media (max-height: 650px) and (max-width: 760px) {
+      .page { grid-template-rows: 48px minmax(0,1fr) 35px; }
+      main { grid-template-rows: minmax(86px, 22%) 1fr; }
+      .copy { padding-top: 2px; }
+      .eyebrow { font-size: 9px; }
+      h1 { margin-block: 8px; font-size: clamp(34px, 8vh, 48px); }
+      .intro { font-size: 12px; }
+      .actions { margin-top: 13px; }
+      .download { min-height: 43px; }
+      .features { margin-top: 12px; }
+    }
+    .tutorial-dialog {
+      width: min(880px, calc(100vw - 28px));
+      max-width: none;
+      max-height: min(88svh, 780px);
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(238,235,222,.16);
+      border-radius: 22px;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(173,129,25,.12), transparent 36%),
+        var(--panel);
+      color: var(--ink);
+      box-shadow: 0 28px 100px rgba(0,0,0,.62), 0 0 0 1px rgba(0,0,0,.16);
+    }
+    .tutorial-dialog::backdrop { background: rgba(5,6,5,.76); backdrop-filter: blur(7px); }
+    .guide-shell { max-height: inherit; display: grid; grid-template-rows: auto auto minmax(0,1fr) auto; }
+    .guide-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 26px 30px 17px; }
+    .guide-header .eyebrow { font-size: 9px; letter-spacing: .15em; }
+    .guide-header h2 { margin: 12px 0 5px; font-size: clamp(23px,3.4vw,34px); font-weight: 570; letter-spacing: -.045em; line-height: 1.12; }
+    .guide-header p { max-width: 580px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .guide-close {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .guide-close:hover { border-color: rgba(229,183,59,.48); color: var(--ink); }
+    .guide-close svg { width: 16px; height: 16px; }
+    .guide-steps { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 7px; padding: 0 26px 15px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: rgba(229,183,59,.45) transparent; }
+    .guide-step {
+      min-width: 0;
+      min-height: 46px;
+      padding: 7px 9px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: color .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .guide-step:hover { color: var(--ink); background: rgba(255,255,255,.065); }
+    .guide-step[aria-current="step"] { border-color: rgba(229,183,59,.5); background: rgba(229,183,59,.09); color: var(--ink); }
+    .guide-step-num { color: var(--gold); font-size: 10px; font-weight: 700; letter-spacing: .05em; }
+    .guide-step-label { overflow: hidden; font-size: 10px; font-weight: 570; text-overflow: ellipsis; white-space: nowrap; }
+    .guide-content { min-height: 0; padding: 21px 30px 24px; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--line); }
+    .guide-content:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
+    .guide-panel[hidden] { display: none !important; }
+    .guide-panel-heading { display: grid; grid-template-columns: 52px minmax(0,1fr); align-items: start; gap: 15px; margin-bottom: 19px; }
+    .guide-panel-number { width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid rgba(229,183,59,.36); border-radius: 15px; background: rgba(229,183,59,.07); color: var(--gold-soft); font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+    .guide-kicker { margin: 0 0 5px; color: var(--gold-soft); font-size: 9px; font-weight: 650; letter-spacing: .14em; text-transform: uppercase; }
+    .guide-panel h3 { margin: 0; font-size: clamp(20px,2.7vw,27px); font-weight: 570; letter-spacing: -.035em; line-height: 1.18; }
+    .guide-lede { max-width: 680px; margin: 7px 0 0; color: #b9b8ae; font-size: 12px; line-height: 1.6; }
+    .guide-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+    .guide-card { min-width: 0; padding: 16px 17px 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.025); }
+    .guide-card-label { display: block; margin-bottom: 8px; color: var(--gold); font-size: 9px; font-weight: 680; letter-spacing: .12em; text-transform: uppercase; }
+    .guide-card h4 { margin: 0 0 6px; font-size: 13px; font-weight: 630; }
+    .guide-card p { margin: 0; color: #aaa99f; font-size: 11px; line-height: 1.65; }
+    .guide-card kbd { padding: 1px 5px; border: 1px solid rgba(238,235,222,.17); border-radius: 5px; background: rgba(0,0,0,.2); color: var(--ink); font: inherit; font-size: .95em; white-space: nowrap; }
+    .guide-note { margin-top: 11px; padding: 10px 13px; display: flex; align-items: flex-start; gap: 9px; border: 1px solid rgba(229,183,59,.18); border-radius: 11px; background: rgba(229,183,59,.055); color: #c6c3b6; font-size: 10.5px; line-height: 1.55; }
+    .guide-note::before { flex: 0 0 auto; width: 6px; height: 6px; margin-top: 5px; content: ""; border-radius: 50%; background: var(--gold); }
+    .guide-footer { display: flex; align-items: center; gap: 9px; padding: 13px 26px 20px; border-top: 1px solid var(--line); }
+    .guide-progress { flex: 1 1 auto; min-width: 110px; color: var(--muted); font-size: 10px; letter-spacing: .06em; }
+    .guide-progress strong { color: var(--ink); font-weight: 620; }
+    .guide-progress-track { width: min(150px,100%); height: 3px; margin-top: 7px; overflow: hidden; border-radius: 999px; background: rgba(238,235,222,.12); }
+    .guide-progress-value { width: 16.666%; height: 100%; border-radius: inherit; background: var(--gold); transition: width .2s ease; }
+    .guide-footer button { min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 11px; background: rgba(255,255,255,.035); color: var(--ink); font: inherit; font-size: 11px; font-weight: 580; cursor: pointer; }
+    .guide-footer button:hover:not(:disabled) { border-color: rgba(229,183,59,.45); }
+    .guide-footer button:disabled { opacity: .42; cursor: default; }
+    .guide-footer .guide-next { border-color: #edc854; background: linear-gradient(135deg,#f0cb61,#dba92e); color: #201b0e; font-weight: 680; }
+    @media (max-width: 620px) {
+      .tutorial-dialog { width: calc(100vw - 20px); max-height: 91svh; border-radius: 18px; }
+      .guide-header { padding: 19px 18px 14px; gap: 12px; }
+      .guide-header h2 { max-width: 390px; margin-top: 9px; font-size: 24px; }
+      .guide-header p { font-size: 11px; }
+      .guide-close { width: 34px; height: 34px; border-radius: 10px; }
+      .guide-steps { grid-template-columns: repeat(6,minmax(112px,1fr)); gap: 6px; padding: 0 16px 12px; }
+      .guide-step { min-height: 42px; padding-inline: 8px; }
+      .guide-step-label { font-size: 10px; }
+      .guide-content { padding: 17px 17px 20px; }
+      .guide-panel-heading { grid-template-columns: 41px minmax(0,1fr); gap: 11px; margin-bottom: 14px; }
+      .guide-panel-number { width: 39px; height: 39px; border-radius: 12px; font-size: 10px; }
+      .guide-panel h3 { font-size: 21px; }
+      .guide-lede { font-size: 11px; }
+      .guide-grid { grid-template-columns: 1fr; gap: 8px; }
+      .guide-card { padding: 13px 14px; }
+      .guide-card h4 { font-size: 12px; }
+      .guide-card p { font-size: 10.5px; }
+      .guide-footer { gap: 7px; padding: 11px 16px 15px; }
+      .guide-progress { min-width: 74px; font-size: 9px; }
+      .guide-progress-track { width: 72px; }
+      .guide-footer button { min-height: 38px; padding-inline: 10px; font-size: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Timbreuse V2 — accueil">
+        <span class="brand-mark" aria-hidden="true">
+          <img src="/logo.png" alt="" width="32" height="32">
+        </span>
+        <span class="brand-name">Timbreuse<span class="brand-version">V2</span></span>
+      </a>
+      <span class="top-note">Le temps, en toute clarté.</span>
+    </header>
+
+    <main>
+      <section class="copy" aria-labelledby="headline">
+        <div class="eyebrow">Le suivi du temps simplifié</div>
+        <h1 id="headline">Gardez le fil.<br><span>À votre rythme.</span></h1>
+        <p class="intro">Suivez vos heures de travail et vos pauses dans une application claire, pensée pour vous accompagner au quotidien.</p>
+        <div class="actions">
+          <a class="download" href="https://github.com/L3S-32/timbreuse-versions/releases/latest/download/Timbreuse-stable-Setup.exe" aria-label="Télécharger l’installateur Windows x64 actuel de Timbreuse V2">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5v11m0 0 4-4m-4 4-4-4M5 16.5v2.8c0 .7.5 1.2 1.2 1.2h11.6c.7 0 1.2-.5 1.2-1.2v-2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Télécharger l’application</span>
+          </a>
+          <button class="guide-trigger" id="guide-open" type="button" aria-haspopup="dialog" aria-controls="guide-dialog">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5M12 7v5l3.1 1.8M19 3v5m-2.5-2.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Guide de prise en main</span>
+          </button>
+          <span class="release-info">Dernière version <span id="release-number"></span>· Un seul installateur · Windows x64 · installation par utilisateur</span>
+        </div>
+        <div class="features" aria-label="Fonctionnalités">
+          <span class="feature"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Heures de travail</span>
+          <span class="feature"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 5v10M13 5v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Pauses</span>
+          <span class="feature"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 15.5V4.5M4 15.5h12M6.5 12l3-3 2.3 1.8 3.7-4.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Historique &amp; statistiques</span>
+        </div>
+      </section>
+
+      <div class="art" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="dial">
+          <svg class="dial-ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="48"/><circle class="arc" cx="50" cy="50" r="48"/></svg>
+          <svg class="dial-glyph" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28"/><path d="M32 16v16l11 7"/></svg>
+          <div class="ticks"><i class="tick"></i><i class="tick"></i><i class="tick"></i><i class="tick"></i><i class="tick"></i><i class="tick"></i><i class="tick"></i><i class="tick"></i></div>
+        </div>
+        <span class="orbit-label label-top">Temps suivi</span>
+        <span class="orbit-label label-bottom">Pause</span>
+        <span class="orbit-label label-side">Votre historique</span>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span class="local"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="8" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="m8.3 12.3 1.2 1.2 2.4-2.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Données conservées sur votre PC</span>
+      <span class="footer-note">Conçue pour Windows</span>
+    </footer>
+  </div>
+
+  <dialog class="tutorial-dialog" id="guide-dialog" aria-labelledby="guide-title" aria-describedby="guide-description">
+    <div class="guide-shell">
+      <header class="guide-header">
+        <div>
+          <div class="eyebrow">GUIDE INTERACTIF · TIMBREUSE V2</div>
+          <h2 id="guide-title">Tout le nécessaire, à votre rythme.</h2>
+          <p id="guide-description">Parcourez les étapes qui vous intéressent. Ce guide ne démarre pas l’application et ne modifie aucun réglage.</p>
+        </div>
+        <button class="guide-close" id="guide-close" type="button" aria-label="Fermer le tutoriel">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+
+      <nav class="guide-steps" aria-label="Rubriques du guide">
+        <button class="guide-step" type="button" data-guide-step="0" aria-label="Étape 1 sur 6 : Installer" aria-current="step"><span class="guide-step-num">01</span><span class="guide-step-label">Installer</span></button>
+        <button class="guide-step" type="button" data-guide-step="1" aria-label="Étape 2 sur 6 : Suivre sa journée" aria-current="false"><span class="guide-step-num">02</span><span class="guide-step-label">Journée</span></button>
+        <button class="guide-step" type="button" data-guide-step="2" aria-label="Étape 3 sur 6 : Corriger une heure" aria-current="false"><span class="guide-step-num">03</span><span class="guide-step-label">Corrections</span></button>
+        <button class="guide-step" type="button" data-guide-step="3" aria-label="Étape 4 sur 6 : Historique et statistiques" aria-current="false"><span class="guide-step-num">04</span><span class="guide-step-label">Historique</span></button>
+        <button class="guide-step" type="button" data-guide-step="4" aria-label="Étape 5 sur 6 : Widget et apparence" aria-current="false"><span class="guide-step-num">05</span><span class="guide-step-label">Widget</span></button>
+        <button class="guide-step" type="button" data-guide-step="5" aria-label="Étape 6 sur 6 : Réglages et démarrage" aria-current="false"><span class="guide-step-num">06</span><span class="guide-step-label">Réglages</span></button>
+      </nav>
+
+      <div class="guide-content" id="guide-content" tabindex="0">
+        <section class="guide-panel" data-guide-panel="0" aria-labelledby="guide-step-title-0">
+          <div class="guide-panel-heading"><span class="guide-panel-number">01</span><div><p class="guide-kicker">POUR COMMENCER</p><h3 id="guide-step-title-0">Installer, puis ouvrir Timbreuse.</h3><p class="guide-lede">L’installation est faite pour Windows et vos pointages restent sur votre ordinateur.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">1 · Télécharger</span><h4>Un seul installateur Windows</h4><p>Sur cette page, cliquez sur « Télécharger l’application », puis ouvrez <strong>Timbreuse-stable-Setup.exe</strong> et suivez les étapes affichées par Windows. Si Windows affiche « Windows a protégé votre ordinateur », cliquez sur <strong>Informations complémentaires</strong> puis <strong>Exécuter quand même</strong> : l’installateur vient bien de Timbreuse.</p></article>
+            <article class="guide-card"><span class="guide-card-label">2 · Retrouver l’application</span><h4>Le widget reste à portée de main</h4><p>Après l’installation, lancez Timbreuse depuis le menu Démarrer. Le petit widget sert d’accès rapide ; le panneau principal regroupe les pages et les réglages.</p></article>
+          </div>
+          <div class="guide-note">Le bouton de téléchargement ouvre l’installateur de Timbreuse V2 pour Windows 64 bits. Le guide, lui, n’installe rien et ne touche pas à vos données.</div>
+        </section>
+
+        <section class="guide-panel" data-guide-panel="1" aria-labelledby="guide-step-title-1" hidden>
+          <div class="guide-panel-heading"><span class="guide-panel-number">02</span><div><p class="guide-kicker">VOTRE JOURNÉE</p><h3 id="guide-step-title-1">Trois gestes pour suivre le temps.</h3><p class="guide-lede">Ouvrez « Aujourd’hui » dans le grand widget : l’état et les compteurs se mettent à jour au fil de la journée.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">Démarrer &amp; reprendre</span><h4>START, puis REPRENDRE</h4><p>Appuyez sur <strong>START</strong> au début de votre journée. Après une pause, utilisez <strong>REPRENDRE</strong> pour continuer le suivi.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Faire une pause</span><h4>PAUSE suspend le travail</h4><p>Quand vous vous arrêtez, cliquez sur <strong>PAUSE</strong>. Le compteur de travail s’arrête ; cliquez sur <strong>REPRENDRE</strong> à votre retour.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Terminer</span><h4>SORTIE / ENREGISTRER</h4><p>À la fin de la journée, cliquez sur <strong>SORTIE / ENREGISTRER</strong>. La journée est clôturée et ses heures sont conservées pour l’historique.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Lire les cartes</span><h4>Un aperçu de la journée</h4><p>Retrouvez notamment le total des pauses, l’heure de départ estimée, ainsi que vos soldes de la semaine et global.</p></article>
+          </div>
+        </section>
+
+        <section class="guide-panel" data-guide-panel="2" aria-labelledby="guide-step-title-2" hidden>
+          <div class="guide-panel-heading"><span class="guide-panel-number">03</span><div><p class="guide-kicker">UNE ERREUR DE POINTAGE ?</p><h3 id="guide-step-title-2">Corriger les heures en quelques secondes.</h3><p class="guide-lede">Le volet discret en bas de « Aujourd’hui » sert à corriger une arrivée, une pause ou une sortie oubliée.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">Ouvrir le volet</span><h4>Cliquez sur la petite flèche</h4><p>Dépliez la zone de correction au bas de la page. Avant d’avoir démarré une journée, elle permet d’enregistrer une heure d’arrivée manuellement.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Écrire une heure</span><h4>Avec ou sans « : »</h4><p>Saisissez par exemple <kbd>730</kbd> ou <kbd>07:30</kbd> pour une arrivée à 7 h 30. À la validation, l’heure s’affiche au format <kbd>07:30</kbd>.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Enregistrer</span><h4>Entrée ou bouton ✓</h4><p>Appuyez sur <kbd>Entrée</kbd> dans le champ concerné, ou sur son bouton de validation. La modification est enregistrée et les totaux sont recalculés.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Pauses &amp; sortie</span><h4>Corriger chaque horaire</h4><p>Le volet contient l’arrivée, la pause de midi, la pause de 15 h et le départ. Une pause laissée vide est considérée comme non renseignée.</p></article>
+          </div>
+          <div class="guide-note">Une pause ajoutée manuellement apparaît sur la barre de progression sous forme de tirets colorés, afin de la distinguer du temps travaillé.</div>
+        </section>
+
+        <section class="guide-panel" data-guide-panel="3" aria-labelledby="guide-step-title-3" hidden>
+          <div class="guide-panel-heading"><span class="guide-panel-number">04</span><div><p class="guide-kicker">PRENDRE DU RECUL</p><h3 id="guide-step-title-3">Retrouver et comprendre vos journées.</h3><p class="guide-lede">Les pointages enregistrés alimentent l’historique et les statistiques.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">Historique</span><h4>Parcourez les jours passés</h4><p>Choisissez une période — semaine, mois ou toutes les données — puis consultez les heures d’arrivée, de sortie, de travail, les pauses et le solde de chaque journée.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Corriger un ancien jour</span><h4>Ouvrez son menu d’actions</h4><p>Sur la ligne de la journée, utilisez le menu à droite pour afficher les actions disponibles et rectifier ses horaires si nécessaire.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Statistiques</span><h4>Voir les tendances</h4><p>Comparez les heures moyennes, les pauses et les soldes sur la période proposée. Le graphique aide à repérer rapidement les journées positives ou négatives.</p></article>
+            <article class="guide-card"><span class="guide-card-label">À retenir</span><h4>Les réglages comptent</h4><p>L’objectif de travail et les jours d’atelier choisis influencent les calculs. Vérifiez-les dans « Réglages » si un solde vous paraît inhabituel.</p></article>
+          </div>
+          <div class="guide-note">Pour que les bilans soient justes, corrigez les heures manquantes avant de vous fier aux moyennes et aux soldes.</div>
+        </section>
+
+        <section class="guide-panel" data-guide-panel="4" aria-labelledby="guide-step-title-4" hidden>
+          <div class="guide-panel-heading"><span class="guide-panel-number">05</span><div><p class="guide-kicker">À VOTRE ÉCRAN</p><h3 id="guide-step-title-4">Widget, aperçu et position.</h3><p class="guide-lede">Gardez le suivi près de vous et adaptez son affichage sans modifier vos pointages.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">Petit widget</span><h4>Un coup d’œil rapide</h4><p>Le widget compact montre l’état de Timbreuse et le temps restant. Le raccourci global permet de l’afficher ou de le masquer depuis une autre application.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Personnalisation</span><h4>Prévisualisez ses états</h4><p>Dans « Personnalisation », choisissez START, Travail, Pause ou Terminé pour voir le rendu, puis réglez la taille du texte et les animations proposées.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Position du widget</span><h4>Choisir un coin ou le déplacer</h4><p>Le mode Coins fixe le widget dans un coin de l’écran. En position libre, faites-le glisser à l’endroit voulu ; sa position est mémorisée.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Panneau principal</span><h4>Fermer n’arrête pas le suivi</h4><p>Fermer le grand panneau le masque, mais Timbreuse continue de tourner. Pour quitter complètement, choisissez « Quitter » dans l’icône de Timbreuse près de l’horloge Windows.</p></article>
+          </div>
+        </section>
+
+        <section class="guide-panel" data-guide-panel="5" aria-labelledby="guide-step-title-5" hidden>
+          <div class="guide-panel-heading"><span class="guide-panel-number">06</span><div><p class="guide-kicker">UNE FOIS POUR TOUTES</p><h3 id="guide-step-title-5">Régler les horaires et le démarrage.</h3><p class="guide-lede">La page « Réglages » rassemble les préférences qui servent au calcul de vos journées.</p></div></div>
+          <div class="guide-grid">
+            <article class="guide-card"><span class="guide-card-label">Temps de travail</span><h4>Définissez votre objectif</h4><p>Adaptez la durée journalière et les autres paramètres de calcul à votre rythme habituel. Le départ estimé et les soldes en tiennent compte.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Mode SAE</span><h4>Un objectif adapté</h4><p>Activez <strong>Mode SAE</strong> si cela vous concerne : l’objectif journalier passe à <strong>6 h 40</strong> et les soldes/statistiques sont recalculés selon ce régime.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Jours d’atelier</span><h4>Choisissez les jours utiles</h4><p>Cochez les jours travaillés puis cliquez sur <strong>ENREGISTRER LES MODIFICATIONS</strong>. Cette sélection sert au démarrage automatique de Windows et aux statistiques.</p></article>
+            <article class="guide-card"><span class="guide-card-label">Raccourci &amp; lancement</span><h4>Afficher le widget rapidement</h4><p>Le raccourci initial est <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>W</kbd> ; vous pouvez le modifier dans les réglages. L’application peut démarrer discrètement les jours sélectionnés.</p></article>
+          </div>
+          <div class="guide-note">La page « Planification » est encore en travaux. Les réglages utiles au suivi quotidien sont accessibles dès maintenant dans « Aujourd’hui », « Historique », « Statistiques » et « Réglages ».</div>
+        </section>
+      </div>
+
+      <footer class="guide-footer">
+        <div class="guide-progress" aria-live="polite"><strong id="guide-progress-label">ÉTAPE 1 / 6</strong><div class="guide-progress-track" aria-hidden="true"><div class="guide-progress-value" id="guide-progress-value"></div></div></div>
+        <button id="guide-previous" type="button" disabled>← Précédent</button>
+        <button class="guide-next" id="guide-next" type="button">Suivant →</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <script>
+    // The download link always points to the latest stable release; the number shown follows it.
+    fetch("https://api.github.com/repos/L3S-32/timbreuse-versions/releases/latest")
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (release) {
+        var target = document.getElementById("release-number");
+        if (release && release.tag_name && target) target.textContent = release.tag_name.replace(/^v/, "") + " ";
+      })
+      .catch(function () {});
+    (() => {
+      const dialog = document.getElementById("guide-dialog");
+      const openButton = document.getElementById("guide-open");
+      const closeButton = document.getElementById("guide-close");
+      const previousButton = document.getElementById("guide-previous");
+      const nextButton = document.getElementById("guide-next");
+      const progressLabel = document.getElementById("guide-progress-label");
+      const progressValue = document.getElementById("guide-progress-value");
+      const content = document.getElementById("guide-content");
+      const steps = [...document.querySelectorAll("[data-guide-step]")];
+      const panels = [...document.querySelectorAll("[data-guide-panel]")];
+      let currentStep = 0;
+
+      function showStep(index) {
+        currentStep = Math.max(0, Math.min(steps.length - 1, index));
+        steps.forEach((step, stepIndex) => {
+          const active = stepIndex === currentStep;
+          step.setAttribute("aria-current", active ? "step" : "false");
+          if (active) step.scrollIntoView({ block: "nearest", inline: "nearest" });
+        });
+        panels.forEach((panel, panelIndex) => { panel.hidden = panelIndex !== currentStep; });
+        progressLabel.textContent = `ÉTAPE ${currentStep + 1} / ${steps.length}`;
+        progressValue.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+        previousButton.disabled = currentStep === 0;
+        nextButton.textContent = currentStep === steps.length - 1 ? "Terminer le guide" : "Suivant →";
+        content.scrollTop = 0;
+      }
+
+      openButton.addEventListener("click", () => {
+        showStep(0);
+        dialog.showModal();
+      });
+      closeButton.addEventListener("click", () => dialog.close());
+      previousButton.addEventListener("click", () => showStep(currentStep - 1));
+      nextButton.addEventListener("click", () => {
+        if (currentStep === steps.length - 1) dialog.close();
+        else showStep(currentStep + 1);
+      });
+      steps.forEach((step) => step.addEventListener("click", () => showStep(Number(step.dataset.guideStep))));
+      dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+      dialog.addEventListener("close", () => openButton.focus());
+      showStep(0);
+    })();
+  </script>
+</body>
+</html>
