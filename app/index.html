@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="theme-color" content="#625ae0" />
-    <meta name="description" content="Le compagnon mobile de Timbreuse : historique, statistiques et assistant local." />
-    <title>Timbreuse</title>
+    <meta name="description" content="Le compagnon mobile de seganTime : historique, statistiques et assistant local." />
+    <title>seganTime</title>
     <base href="/timbreuse-versions/app/" />
-    <link href="_framework/dotnet.7y2fn5lrxm.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-UYgs1HEhh+DVV7bYfb0CGfaDtOqLs4pTvSS6hXkrrv4=" />
+    <link href="_framework/dotnet.1xif7ewhqi.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=" />
     <link rel="stylesheet" href="css/app.css" />
     <!-- If you add any scoped CSS files, uncomment the following to load them
     <link href="TimbreuseMobile.styles.css" rel="stylesheet" /> -->
@@ -19,7 +19,7 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.7y2fn5lrxm.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.1xif7ewhqi.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.q38003gvqi.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js"
   },
@@ -27,8 +27,8 @@
   "integrity": {
     "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
     "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
-    "./_framework/dotnet.7y2fn5lrxm.js": "sha256-UYgs1HEhh+DVV7bYfb0CGfaDtOqLs4pTvSS6hXkrrv4=",
-    "./_framework/dotnet.js": "sha256-UYgs1HEhh+DVV7bYfb0CGfaDtOqLs4pTvSS6hXkrrv4=",
+    "./_framework/dotnet.1xif7ewhqi.js": "sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=",
+    "./_framework/dotnet.js": "sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=",
     "./_framework/dotnet.native.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.native.q38003gvqi.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.runtime.azrfhwb804.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
@@ -40,7 +40,7 @@
 <body>
     <div class="blobs" aria-hidden="true"><span></span><span></span><span></span></div>
     <div id="app">
-        <div class="boot" role="status"><svg class="drop" viewBox="0 0 512 512" aria-hidden="true"><path fill="#5B5BF0" d="M477.9,256.0 C479.3,272.4 478.6,289.8 475.3,306.1 C472.0,322.3 466.4,339.1 458.3,353.4 C450.2,367.8 438.9,381.4 426.7,392.1 C414.5,402.9 399.3,411.1 385.0,417.7 C370.6,424.3 355.1,428.0 340.7,431.8 C326.2,435.6 312.3,438.0 298.1,440.7 C284.0,443.3 270.4,446.4 256.0,447.8 C241.6,449.3 226.5,450.9 211.9,449.3 C197.3,447.7 181.8,444.3 168.2,438.3 C154.6,432.3 141.6,423.3 130.4,413.5 C119.1,403.8 109.6,391.7 100.8,379.8 C92.0,367.8 84.5,355.0 77.7,341.8 C71.0,328.7 64.7,315.0 60.4,300.6 C56.1,286.3 52.7,271.1 51.9,256.0 C51.2,240.9 52.6,225.1 55.9,210.3 C59.2,195.6 65.1,180.9 71.9,167.3 C78.6,153.7 87.0,140.7 96.4,128.7 C105.7,116.7 116.2,105.0 128.0,95.4 C139.7,85.9 153.1,76.9 167.1,71.3 C181.0,65.7 196.9,62.4 211.7,61.9 C226.5,61.4 242.0,64.5 256.0,68.1 C270.0,71.6 282.9,77.9 295.5,83.1 C308.1,88.2 319.4,93.6 331.7,98.7 C344.0,103.9 356.5,107.9 369.3,113.9 C382.1,119.8 396.2,125.7 408.5,134.4 C420.8,143.1 433.5,153.6 443.3,165.8 C453.1,178.0 461.4,192.8 467.2,207.8 C473.0,222.8 476.6,239.6 477.9,256.0 Z"/><g stroke="#fff" stroke-width="34" stroke-linecap="round"><line x1="256" y1="256" x2="174" y2="208"/><line x1="256" y1="256" x2="326" y2="134"/></g><circle cx="256" cy="256" r="28" fill="#fff"/></svg><strong>Timbreuse</strong></div>
+        <div class="boot" role="status"><svg class="drop" viewBox="0 0 512 512" aria-hidden="true"><path fill="#5B5BF0" d="M477.9,256.0 C479.3,272.4 478.6,289.8 475.3,306.1 C472.0,322.3 466.4,339.1 458.3,353.4 C450.2,367.8 438.9,381.4 426.7,392.1 C414.5,402.9 399.3,411.1 385.0,417.7 C370.6,424.3 355.1,428.0 340.7,431.8 C326.2,435.6 312.3,438.0 298.1,440.7 C284.0,443.3 270.4,446.4 256.0,447.8 C241.6,449.3 226.5,450.9 211.9,449.3 C197.3,447.7 181.8,444.3 168.2,438.3 C154.6,432.3 141.6,423.3 130.4,413.5 C119.1,403.8 109.6,391.7 100.8,379.8 C92.0,367.8 84.5,355.0 77.7,341.8 C71.0,328.7 64.7,315.0 60.4,300.6 C56.1,286.3 52.7,271.1 51.9,256.0 C51.2,240.9 52.6,225.1 55.9,210.3 C59.2,195.6 65.1,180.9 71.9,167.3 C78.6,153.7 87.0,140.7 96.4,128.7 C105.7,116.7 116.2,105.0 128.0,95.4 C139.7,85.9 153.1,76.9 167.1,71.3 C181.0,65.7 196.9,62.4 211.7,61.9 C226.5,61.4 242.0,64.5 256.0,68.1 C270.0,71.6 282.9,77.9 295.5,83.1 C308.1,88.2 319.4,93.6 331.7,98.7 C344.0,103.9 356.5,107.9 369.3,113.9 C382.1,119.8 396.2,125.7 408.5,134.4 C420.8,143.1 433.5,153.6 443.3,165.8 C453.1,178.0 461.4,192.8 467.2,207.8 C473.0,222.8 476.6,239.6 477.9,256.0 Z"/><g stroke="#fff" stroke-width="34" stroke-linecap="round"><line x1="256" y1="256" x2="174" y2="208"/><line x1="256" y1="256" x2="326" y2="134"/></g><circle cx="256" cy="256" r="28" fill="#fff"/></svg><strong>seganTime</strong></div>
     </div>
 
     <div id="blazor-error-ui">
