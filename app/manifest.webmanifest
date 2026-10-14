@@ -1,0 +1,20 @@
+{
+  "name": "Timbreuse",
+  "short_name": "Timbreuse",
+  "id": "./",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#eef0f6",
+  "theme_color": "#625ae0",
+  "lang": "fr",
+  "description": "Ton temps de travail, sur ton téléphone.",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "app-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}
