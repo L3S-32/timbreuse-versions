@@ -246,6 +246,7 @@ input::placeholder,textarea::placeholder { color:var(--secondary); opacity:.85; 
 .boot .drop { width:84px; height:84px; animation:float 3s ease-in-out infinite; filter:drop-shadow(0 16px 28px #4747bb55); }
 .boot strong { color:var(--ink); font-size:1.2rem; }
 .drop-hand { transform-origin:256px 256px; transition:transform 1.2s cubic-bezier(.34,1.4,.64,1); }
+.clock-widget-mark .drop { width:36px; height:36px; display:block; }
 #blazor-error-ui { display:none; position:fixed; z-index:100; left:12px; right:12px; bottom:96px; padding:16px; border-radius:18px; background:#f9e8df; color:#462a1e; box-shadow:0 2px 20px #0002; }
 #blazor-error-ui .reload { display:block; margin-top:8px; font-weight:600; }
 #blazor-error-ui .dismiss { position:absolute; top:5px; right:7px; }

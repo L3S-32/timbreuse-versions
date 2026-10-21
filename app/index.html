@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#625ae0" />
     <meta name="description" content="Le compagnon mobile de seganTime : historique, statistiques et assistant local." />
     <title>seganTime</title>
-    <base href="/timbreuse-versions/app/" />
-    <link href="_framework/dotnet.1xif7ewhqi.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=" />
+    <base href="./" />
+    <link href="_framework/dotnet.tvb8kgoxe8.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-KYI+/CgMeexrLqY/Gv9eBjG8C126lkTFPC1Z4XzexHQ=" />
     <link rel="stylesheet" href="css/app.css" />
     <!-- If you add any scoped CSS files, uncomment the following to load them
     <link href="TimbreuseMobile.styles.css" rel="stylesheet" /> -->
@@ -19,20 +19,20 @@
     <script type="importmap">{
   "imports": {
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.w3qd1tpl0e.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.1xif7ewhqi.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.q38003gvqi.js",
-    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js"
+    "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.azrfhwb804.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.tvb8kgoxe8.js"
   },
   "scopes": {},
   "integrity": {
     "./_framework/blazor.webassembly.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
     "./_framework/blazor.webassembly.w3qd1tpl0e.js": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
-    "./_framework/dotnet.1xif7ewhqi.js": "sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=",
-    "./_framework/dotnet.js": "sha256-hawJf+GU6dVM1lHfcmD1EGy2sdimbP3dnDqhzFCdiJw=",
+    "./_framework/dotnet.js": "sha256-KYI+/CgMeexrLqY/Gv9eBjG8C126lkTFPC1Z4XzexHQ=",
     "./_framework/dotnet.native.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.native.q38003gvqi.js": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
     "./_framework/dotnet.runtime.azrfhwb804.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
-    "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g="
+    "./_framework/dotnet.runtime.js": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
+    "./_framework/dotnet.tvb8kgoxe8.js": "sha256-KYI+/CgMeexrLqY/Gv9eBjG8C126lkTFPC1Z4XzexHQ="
   }
 }</script>
 </head>
@@ -51,6 +51,7 @@
     <script src="_framework/blazor.webassembly.w3qd1tpl0e.js"></script>
     <script src="mobile.js"></script>
     <script src="chat-library.js"></script>
+    <script src="sync-box.js"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).catch(() => {});</script>
 </body>
 
