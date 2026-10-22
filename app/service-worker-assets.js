@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "V0d5Fuzq",
+  "version": "MYQZFENn",
   "assets": [
     {
       "hash": "sha256-tIwcRmrbfZDKLAE0ZeWUZH+FsT7owvSfeeMzGye532g=",
@@ -146,8 +146,8 @@ self.assetsManifest = {
       "url": "_framework/TimbreuseCompanion.Core.n13wil6f9n.wasm"
     },
     {
-      "hash": "sha256-rLCxKYT76HhMX1s0hmfNtvB158ggS2peV2PFnNfCCEk=",
-      "url": "_framework/TimbreuseMobile.ol6pnfz6uk.wasm"
+      "hash": "sha256-xu+fsL9sDPFxe3PJrFUGK2TG+Y80AwrlfSOlzECraXQ=",
+      "url": "_framework/TimbreuseMobile.6cxg7j9r2r.wasm"
     },
     {
       "hash": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
@@ -166,8 +166,8 @@ self.assetsManifest = {
       "url": "_framework/dotnet.runtime.azrfhwb804.js"
     },
     {
-      "hash": "sha256-tC2bD+cyEOpsubmrqS7QUHTuoGo/meY+XDzeK1gbK/I=",
-      "url": "_framework/dotnet.wto8ucz5u4.js"
+      "hash": "sha256-liO6bUEajFkmTPdWiBCDd+r7dmBf3qy5NESXX15yAd0=",
+      "url": "_framework/dotnet.y93cwef6ln.js"
     },
     {
       "hash": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -206,7 +206,7 @@ self.assetsManifest = {
       "url": "images/mineral-wallpaper.webp"
     },
     {
-      "hash": "sha256-u33SblnGBpzQgGFx8mj2rzapZcX2HeWmDafbdLPot5A=",
+      "hash": "sha256-J/76S9l2+gKTnEdYkIEChkuM/20DVHR6wK8tF3ClJKU=",
       "url": "index.html"
     },
     {
