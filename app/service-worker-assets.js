@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "Rv6upG65",
+  "version": "WAL5Atm6",
   "assets": [
     {
       "hash": "sha256-tIwcRmrbfZDKLAE0ZeWUZH+FsT7owvSfeeMzGye532g=",
@@ -142,16 +142,20 @@ self.assetsManifest = {
       "url": "_framework/System.Threading.p37xhao2g5.wasm"
     },
     {
-      "hash": "sha256-lhB6ldlLKmP21FD7JtbhcgrSRC9LK7LIPphIje3HotE=",
-      "url": "_framework/TimbreuseCompanion.Core.agiczdjyrh.wasm"
+      "hash": "sha256-/JfeHEdVF0tUU5qWa/sHI7W30EElSLtqeXELbITZM4w=",
+      "url": "_framework/TimbreuseCompanion.Core.gn3ui25x5o.wasm"
     },
     {
-      "hash": "sha256-qP8pEB3s/b5DTsSnvXNYN3/G56bG85kChhzGWxQBsRQ=",
-      "url": "_framework/TimbreuseMobile.gqb12vr56a.wasm"
+      "hash": "sha256-ItSSHQsTDgbEAnDaka1F8gE6L8LJQxgK3Q44QXTzjfE=",
+      "url": "_framework/TimbreuseMobile.irk7jhfsn1.wasm"
     },
     {
       "hash": "sha256-lDXsDYFgm62F+YUvxES7IOTCXYpiHpU3uR45YdC6mq4=",
       "url": "_framework/blazor.webassembly.w3qd1tpl0e.js"
+    },
+    {
+      "hash": "sha256-JdKTo6iiIoeg60Kr87X1nVN+HjaLZ/FKTsuO+8ziXrk=",
+      "url": "_framework/dotnet.3ui6d33l63.js"
     },
     {
       "hash": "sha256-//GZeYgjUoxGpPK0TDGntOZk0L95XIFJV8EA+7Wfffk=",
@@ -160,10 +164,6 @@ self.assetsManifest = {
     {
       "hash": "sha256-BtUMevCTTpUK4I5d68LtBZlJdGIQC7fk+oNnjyzuFR4=",
       "url": "_framework/dotnet.native.q38003gvqi.js"
-    },
-    {
-      "hash": "sha256-AVcbDLlis8FlR9uFgtXfkN4u7Yn88YjhfVFcSg8VGns=",
-      "url": "_framework/dotnet.pagayxi53x.js"
     },
     {
       "hash": "sha256-muN076HgyOCoAaid7zD7a2/GN7aQ7tmK/BzdnKgw78g=",
@@ -194,7 +194,7 @@ self.assetsManifest = {
       "url": "chat-library.js"
     },
     {
-      "hash": "sha256-/t+J+uCvb+TF7gKIIM6ZflKiDwAy+Hxf4QiVLmSmv0w=",
+      "hash": "sha256-2T0M3vD4/WlmNL0s2Fa3Powuim8YRp9okKPTQdwLepo=",
       "url": "css/app.css"
     },
     {
@@ -206,7 +206,7 @@ self.assetsManifest = {
       "url": "images/mineral-wallpaper.webp"
     },
     {
-      "hash": "sha256-yd83rojl6Q7XIt4n+XXxEF9RKyj9pnNSwNRV1SwFl/I=",
+      "hash": "sha256-KWeuRsBf4hltCf1xUgzG6EKpNLeqUUCRkgrBlP9DS3s=",
       "url": "index.html"
     },
     {
@@ -218,7 +218,7 @@ self.assetsManifest = {
       "url": "mobile.js"
     },
     {
-      "hash": "sha256-Pj9rxZ/HCpiHQLgxypMQ7dfQU+0z3Fc3rFYi0L8utqg=",
+      "hash": "sha256-WqNguC8s9dN9rO/aiMYe4BFf7VsYUOfMXBRfIbFEi9A=",
       "url": "pause-timer.js"
     },
     {
