@@ -289,3 +289,11 @@ body:has(.conversation-overlay) { overflow:hidden; }.conversation-overlay { posi
 @media (max-width:360px) { .app-shell { padding-left:12px; padding-right:12px; } .day-row { gap:9px; } .stat-grid { gap:6px; } .stat-card { padding:13px 9px; } .stat-card strong { font-size:1.05rem; } .hero-value,.today-hero .hero-value { font-size:2.8rem; } }
 @media (max-height:550px) { .assistant-shell { padding-top:4px; } .chat-welcome { padding:10px 0; } .chat-welcome .drop,.chat-welcome p,.chat-welcome .suggestions { display:none; } .chat-welcome h2 { font-size:1.3rem; } }
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.001ms!important; animation-iteration-count:1!important; transition:none!important; scroll-behavior:auto!important; } }
+/* Owner, 22 October: the code request alone, centred, until a code is typed. */
+.code-gate { min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:16px; }
+.code-dialog { display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; max-width:420px; }
+.code-dialog .drop { width:64px; height:64px; }
+.code-dialog h2 { margin:0; }
+.code-dialog .field { width:100%; text-align:left; }
+.code-dialog .primary { width:100%; }
+.code-input { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:1.15rem; letter-spacing:.06em; text-align:center; text-transform:uppercase; }
