@@ -32,7 +32,7 @@
       background: var(--page); color: var(--ink); overflow-x: hidden;
       display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 0 16px;
     }
-    /* The liquid behind the glass, like the Assistant's drops in the app. */
+    /* The liquid behind the glass, like the clock on the widget. */
     .blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; filter: blur(60px); }
     .blobs span { position: absolute; border-radius: 50%; animation: wander 22s ease-in-out infinite alternate; }
     .blobs span:nth-child(1) { width: 46vmax; height: 46vmax; left: -10vmax; top: -12vmax; background: var(--blob-a); }
@@ -194,7 +194,7 @@
       </article>
       <article class="feature">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 12C21.46 12.69 21.43 13.43 21.29 14.12C21.15 14.81 20.91 15.52 20.57 16.13C20.23 16.74 19.75 17.31 19.23 17.77C18.72 18.22 18.07 18.57 17.46 18.85C16.86 19.13 16.2 19.29 15.59 19.45C14.97 19.61 14.38 19.71 13.79 19.82C13.19 19.94 12.61 20.07 12 20.13C11.39 20.19 10.75 20.26 10.13 20.19C9.51 20.12 8.86 19.98 8.28 19.72C7.7 19.47 7.15 19.09 6.68 18.68C6.2 18.26 5.79 17.75 5.42 17.24C5.05 16.74 4.73 16.2 4.45 15.64C4.16 15.08 3.89 14.5 3.71 13.89C3.53 13.29 3.38 12.64 3.35 12C3.32 11.36 3.38 10.69 3.52 10.06C3.66 9.44 3.91 8.82 4.2 8.24C4.48 7.67 4.84 7.11 5.24 6.61C5.63 6.1 6.08 5.6 6.57 5.2C7.07 4.79 7.64 4.41 8.23 4.17C8.82 3.94 9.49 3.8 10.12 3.78C10.75 3.75 11.41 3.89 12 4.04C12.59 4.19 13.14 4.46 13.67 4.67C14.21 4.89 14.69 5.12 15.21 5.34C15.73 5.55 16.26 5.73 16.8 5.98C17.34 6.23 17.94 6.48 18.46 6.85C18.98 7.21 19.52 7.66 19.94 8.18C20.35 8.7 20.71 9.32 20.95 9.96C21.19 10.59 21.35 11.31 21.4 12Z"/><path d="M12 12 8.6 9.6M12 12l5.4-3.1"/></svg>
-        <h2>Un Assistant</h2><p>« Je peux partir à 15 h ? » Il te répond, sur ton PC.</p>
+        <h2>Ton heure de départ</h2><p>Choisis quand tu veux partir. Le widget affiche le temps restant.</p>
       </article>
     </section>
   </main>
